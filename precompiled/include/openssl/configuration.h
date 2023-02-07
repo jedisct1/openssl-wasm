@@ -118,9 +118,6 @@ extern "C" {
 # ifndef OPENSSL_NO_MSAN
 #  define OPENSSL_NO_MSAN
 # endif
-# ifndef OPENSSL_NO_POSIX_IO
-#  define OPENSSL_NO_POSIX_IO
-# endif
 # ifndef OPENSSL_NO_QUIC
 #  define OPENSSL_NO_QUIC
 # endif

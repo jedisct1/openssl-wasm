@@ -12,7 +12,7 @@ env \
     CFLAGS="-Ofast" \
     CPPFLAGS="-DUSE_TIMEGM=1" \
     LDFLAGS="-s" \
-    ./Configure --prefix=/tmp/open \
+    ./Configure \
     --banner="wasm32-wasi port" \
     no-asm \
     no-async \
@@ -21,7 +21,6 @@ env \
     no-ktls \
     no-module \
     no-pic \
-    no-posix-io \
     no-quic \
     no-secure-memory \
     no-shared \
