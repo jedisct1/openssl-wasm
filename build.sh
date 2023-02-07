@@ -10,7 +10,7 @@ env \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
     CFLAGS="-Ofast" \
-    CPPFLAGS="-DUSE_TIMEGM=1 -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
+    CPPFLAGS="-DUSE_TIMEGM=1 -Dgetpid=getpagesize -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     LDFLAGS="-s" \
     ./Configure \
     --banner="wasm32-wasi port" \
