@@ -20,7 +20,6 @@ env \
     no-egd \
     no-ktls \
     no-module \
-    no-pic \
     no-quic \
     no-secure-memory \
     no-shared \
