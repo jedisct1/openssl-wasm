@@ -151,21 +151,6 @@ extern "C" {
 # ifndef OPENSSL_NO_THREAD_POOL
 #  define OPENSSL_NO_THREAD_POOL
 # endif
-# ifndef OPENSSL_NO_TLS
-#  define OPENSSL_NO_TLS
-# endif
-# ifndef OPENSSL_NO_TLS1
-#  define OPENSSL_NO_TLS1
-# endif
-# ifndef OPENSSL_NO_TLS1_1
-#  define OPENSSL_NO_TLS1_1
-# endif
-# ifndef OPENSSL_NO_TLS1_2
-#  define OPENSSL_NO_TLS1_2
-# endif
-# ifndef OPENSSL_NO_TLS1_3
-#  define OPENSSL_NO_TLS1_3
-# endif
 # ifndef OPENSSL_NO_TRACE
 #  define OPENSSL_NO_TRACE
 # endif

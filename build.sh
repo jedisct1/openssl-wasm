@@ -10,24 +10,21 @@ env \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
     CFLAGS="-Ofast" \
-    CPPFLAGS="-DUSE_TIMEGM=1" \
+    CPPFLAGS="-DUSE_TIMEGM=1 -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     LDFLAGS="-s" \
     ./Configure \
     --banner="wasm32-wasi port" \
     no-asm \
     no-async \
-    no-dgram \
     no-egd \
     no-ktls \
     no-module \
-    no-quic \
     no-secure-memory \
     no-shared \
     no-sock \
     no-stdio \
     no-thread-pool \
     no-threads \
-    no-tls \
     no-ui-console \
     no-weak-ssl-ciphers || exit 1
 
