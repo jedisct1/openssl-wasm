@@ -2,7 +2,9 @@
 
 This is OpenSSL, compiled to WebAssembly/WASI.
 
-Up-to-date. Maintained. 
+Up-to-date. Maintained.
+
+Related: [BoringSSL for WebAssembly](https://github.com/jedisct1/boringssl-wasm).
 
 ## Precompiled library
 
@@ -28,6 +30,7 @@ The only required dependencies to rebuild the library are:
 ## Building
 
 ```sh
+./patch.sh
 ./build.sh
 ```
 
