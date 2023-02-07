@@ -19,6 +19,7 @@ env \
     no-egd \
     no-ktls \
     no-module \
+    no-posix-io \
     no-secure-memory \
     no-shared \
     no-sock \
