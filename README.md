@@ -8,7 +8,7 @@ Up-to-date. Maintained.
 
 For convenience, [precompiled files](precompiled/) libraries for WebAssembly can be directly downloaded from this repository.
 
-They can be directly linked to C, Rust, Zig, etc. as any other static library.
+They can be directly linked to C, Rust, Zig, etc. as regular static libraries.
 
 ## OpenSSL submodule
 
