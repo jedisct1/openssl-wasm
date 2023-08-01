@@ -9,9 +9,10 @@ env \
     AR="zig ar" \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
-    CFLAGS="-Ofast" \
-    CPPFLAGS="-DUSE_TIMEGM=1 -Dgetpid=getpagesize -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
-    LDFLAGS="-s" \
+    CFLAGS="-Ofast -Werror -Qunused-arguments" \
+    CPPFLAGS="-DUSE_TIMEGM=1 -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
+    CXXFLAGS="-Werror -Qunused-arguments" \
+    LDFLAGS="-s -lwasi-emulated-getpid" \
     ./Configure \
     --banner="wasm32-wasi port" \
     no-asm \
