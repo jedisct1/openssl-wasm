@@ -9,8 +9,9 @@ env \
     AR="zig ar" \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
-    CFLAGS="-Ofast" \
+    CFLAGS="-Ofast -Werror -Qunused-arguments" \
     CPPFLAGS="-DUSE_TIMEGM=1 -Dgetpid=getpagesize -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
+    CXXFLAGS="-Werror -Qunused-arguments" \
     LDFLAGS="-s" \
     ./Configure \
     --banner="wasm32-wasi port" \
