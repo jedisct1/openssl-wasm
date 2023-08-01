@@ -76,9 +76,6 @@ extern "C" {
 # ifndef OPENSSL_NO_DGRAM
 #  define OPENSSL_NO_DGRAM
 # endif
-# ifndef OPENSSL_NO_DSO
-#  define OPENSSL_NO_DSO
-# endif
 # ifndef OPENSSL_NO_DTLS
 #  define OPENSSL_NO_DTLS
 # endif
