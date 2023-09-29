@@ -9,9 +9,10 @@ env \
     AR="zig ar" \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
-    CFLAGS="-Ofast" \
-    CPPFLAGS="-DUSE_TIMEGM=1 -Dgetpid=getpagesize -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
-    LDFLAGS="-s" \
+    CFLAGS="-Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
+    CPPFLAGS="$CPPFLAGS -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
+    CXXFLAGS="-Werror -Qunused-arguments -Wno-shift-count-overflow" \
+    LDFLAGS="-s -lwasi-emulated-getpid" \
     ./Configure \
     --banner="wasm32-wasi port" \
     no-asm \
@@ -27,7 +28,8 @@ env \
     no-thread-pool \
     no-threads \
     no-ui-console \
-    no-weak-ssl-ciphers || exit 1
+    no-weak-ssl-ciphers \
+    wasm32-wasi || exit 1
 
 make "-j${NPROCESSORS}"
 
