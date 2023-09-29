@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2022 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2023 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -176,6 +176,10 @@ OSSL_CORE_MAKE_FUNC(int, BIO_vsnprintf,
 OSSL_CORE_MAKE_FUNC(int, BIO_ctrl, (OSSL_CORE_BIO *bio,
                                     int cmd, long num, void *ptr))
 
+/* New seeding functions prototypes with the 101-104 series */
+#define OSSL_FUNC_GET_USER_ENTROPY            98
+#define OSSL_FUNC_GET_USER_NONCE              99
+
 #define OSSL_FUNC_SELF_TEST_CB               100
 OSSL_CORE_MAKE_FUNC(void, self_test_cb, (OPENSSL_CORE_CTX *ctx, OSSL_CALLBACK **cb,
                                          void **cbarg))
@@ -188,12 +192,19 @@ OSSL_CORE_MAKE_FUNC(void, self_test_cb, (OPENSSL_CORE_CTX *ctx, OSSL_CALLBACK **
 OSSL_CORE_MAKE_FUNC(size_t, get_entropy, (const OSSL_CORE_HANDLE *handle,
                                           unsigned char **pout, int entropy,
                                           size_t min_len, size_t max_len))
+OSSL_CORE_MAKE_FUNC(size_t, get_user_entropy, (const OSSL_CORE_HANDLE *handle,
+                                               unsigned char **pout, int entropy,
+                                               size_t min_len, size_t max_len))
 OSSL_CORE_MAKE_FUNC(void, cleanup_entropy, (const OSSL_CORE_HANDLE *handle,
                                             unsigned char *buf, size_t len))
 OSSL_CORE_MAKE_FUNC(size_t, get_nonce, (const OSSL_CORE_HANDLE *handle,
                                         unsigned char **pout, size_t min_len,
                                         size_t max_len, const void *salt,
                                         size_t salt_len))
+OSSL_CORE_MAKE_FUNC(size_t, get_user_nonce, (const OSSL_CORE_HANDLE *handle,
+                                             unsigned char **pout, size_t min_len,
+                                             size_t max_len, const void *salt,
+                                             size_t salt_len))
 OSSL_CORE_MAKE_FUNC(void, cleanup_nonce, (const OSSL_CORE_HANDLE *handle,
                                           unsigned char *buf, size_t len))
 
@@ -936,6 +947,8 @@ OSSL_CORE_MAKE_FUNC(int, decoder_export_object,
 #define OSSL_FUNC_STORE_EOF                         6
 #define OSSL_FUNC_STORE_CLOSE                       7
 #define OSSL_FUNC_STORE_EXPORT_OBJECT               8
+#define OSSL_FUNC_STORE_DELETE                      9
+#define OSSL_FUNC_STORE_OPEN_EX                     10
 OSSL_CORE_MAKE_FUNC(void *, store_open, (void *provctx, const char *uri))
 OSSL_CORE_MAKE_FUNC(void *, store_attach, (void *provctx, OSSL_CORE_BIO *in))
 OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *, store_settable_ctx_params,
@@ -951,6 +964,12 @@ OSSL_CORE_MAKE_FUNC(int, store_close, (void *loaderctx))
 OSSL_CORE_MAKE_FUNC(int, store_export_object,
                     (void *loaderctx, const void *objref, size_t objref_sz,
                      OSSL_CALLBACK *export_cb, void *export_cbarg))
+OSSL_CORE_MAKE_FUNC(int, store_delete,
+                    (void *provctx, const char *uri, const OSSL_PARAM params[],
+                     OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg))
+OSSL_CORE_MAKE_FUNC(void *, store_open_ex,
+                    (void *provctx, const char *uri, const OSSL_PARAM params[],
+                     OSSL_PASSPHRASE_CALLBACK *pw_cb, void *pw_cbarg))
 
 # ifdef __cplusplus
 }

@@ -39,7 +39,7 @@ extern "C" {
  */
 
 /* Could be: #define OPENSSL_VERSION_PRE_RELEASE "-alpha.1" */
-# define OPENSSL_VERSION_PRE_RELEASE "-dev"
+# define OPENSSL_VERSION_PRE_RELEASE "-alpha3-dev"
 /* Could be: #define OPENSSL_VERSION_BUILD_METADATA "+fips" */
 /* Could be: #define OPENSSL_VERSION_BUILD_METADATA "+vendor.1" */
 # define OPENSSL_VERSION_BUILD_METADATA ""
@@ -75,7 +75,7 @@ extern "C" {
  * OPENSSL_VERSION_BUILD_METADATA_STR appended.
  */
 # define OPENSSL_VERSION_STR "3.2.0"
-# define OPENSSL_FULL_VERSION_STR "3.2.0-dev"
+# define OPENSSL_FULL_VERSION_STR "3.2.0-alpha3-dev"
 
 /*
  * SECTION 3: ADDITIONAL METADATA
@@ -88,7 +88,7 @@ extern "C" {
  * SECTION 4: BACKWARD COMPATIBILITY
  */
 
-# define OPENSSL_VERSION_TEXT "OpenSSL 3.2.0-dev "
+# define OPENSSL_VERSION_TEXT "OpenSSL 3.2.0-alpha3-dev "
 
 /* Synthesize OPENSSL_VERSION_NUMBER with the layout 0xMNN00PPSL */
 # ifdef OPENSSL_VERSION_PRE_RELEASE

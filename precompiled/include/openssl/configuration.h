@@ -27,9 +27,6 @@ extern "C" {
  * OpenSSL was configured with the following options:
  */
 
-# ifndef OPENSSL_SYS_MACOSX
-#  define OPENSSL_SYS_MACOSX 1
-# endif
 # define OPENSSL_CONFIGURED_API 30200
 # ifndef OPENSSL_RAND_SEED_OS
 #  define OPENSSL_RAND_SEED_OS
@@ -198,9 +195,9 @@ extern "C" {
 # if !defined(OPENSSL_SYS_UEFI)
 #  undef BN_LLONG
 /* Only one for the following should be defined */
-#  define SIXTY_FOUR_BIT_LONG
+#  undef SIXTY_FOUR_BIT_LONG
 #  undef SIXTY_FOUR_BIT
-#  undef THIRTY_TWO_BIT
+#  define THIRTY_TWO_BIT
 # endif
 
 # define RC4_INT unsigned int
