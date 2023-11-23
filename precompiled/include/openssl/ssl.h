@@ -24,6 +24,7 @@
 # endif
 
 # include <openssl/e_os2.h>
+# include <openssl/e_ostime.h>
 # include <openssl/opensslconf.h>
 # include <openssl/comp.h>
 # include <openssl/bio.h>
@@ -2419,7 +2420,7 @@ __owur int SSL_get_stream_write_error_code(SSL *ssl, uint64_t *app_error_code);
 #define SSL_CONN_CLOSE_FLAG_TRANSPORT   (1U << 1)
 
 typedef struct ssl_conn_close_info_st {
-    uint64_t    error_code;
+    uint64_t    error_code, frame_type;
     const char  *reason;
     size_t      reason_len;
     uint32_t    flags;

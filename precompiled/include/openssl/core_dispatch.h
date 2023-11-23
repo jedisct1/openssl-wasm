@@ -177,6 +177,8 @@ OSSL_CORE_MAKE_FUNC(int, BIO_ctrl, (OSSL_CORE_BIO *bio,
                                     int cmd, long num, void *ptr))
 
 /* New seeding functions prototypes with the 101-104 series */
+#define OSSL_FUNC_CLEANUP_USER_ENTROPY        96
+#define OSSL_FUNC_CLEANUP_USER_NONCE          97
 #define OSSL_FUNC_GET_USER_ENTROPY            98
 #define OSSL_FUNC_GET_USER_NONCE              99
 
@@ -197,6 +199,8 @@ OSSL_CORE_MAKE_FUNC(size_t, get_user_entropy, (const OSSL_CORE_HANDLE *handle,
                                                size_t min_len, size_t max_len))
 OSSL_CORE_MAKE_FUNC(void, cleanup_entropy, (const OSSL_CORE_HANDLE *handle,
                                             unsigned char *buf, size_t len))
+OSSL_CORE_MAKE_FUNC(void, cleanup_user_entropy, (const OSSL_CORE_HANDLE *handle,
+                                                 unsigned char *buf, size_t len))
 OSSL_CORE_MAKE_FUNC(size_t, get_nonce, (const OSSL_CORE_HANDLE *handle,
                                         unsigned char **pout, size_t min_len,
                                         size_t max_len, const void *salt,
@@ -207,6 +211,8 @@ OSSL_CORE_MAKE_FUNC(size_t, get_user_nonce, (const OSSL_CORE_HANDLE *handle,
                                              size_t salt_len))
 OSSL_CORE_MAKE_FUNC(void, cleanup_nonce, (const OSSL_CORE_HANDLE *handle,
                                           unsigned char *buf, size_t len))
+OSSL_CORE_MAKE_FUNC(void, cleanup_user_nonce, (const OSSL_CORE_HANDLE *handle,
+                                               unsigned char *buf, size_t len))
 
 /* Functions to access the core's providers */
 #define OSSL_FUNC_PROVIDER_REGISTER_CHILD_CB   105
@@ -294,12 +300,16 @@ OSSL_CORE_MAKE_FUNC(int, provider_self_test, (void *provctx))
 # define OSSL_FUNC_DIGEST_GETTABLE_PARAMS           11
 # define OSSL_FUNC_DIGEST_SETTABLE_CTX_PARAMS       12
 # define OSSL_FUNC_DIGEST_GETTABLE_CTX_PARAMS       13
+# define OSSL_FUNC_DIGEST_SQUEEZE                   14
 
 OSSL_CORE_MAKE_FUNC(void *, digest_newctx, (void *provctx))
 OSSL_CORE_MAKE_FUNC(int, digest_init, (void *dctx, const OSSL_PARAM params[]))
 OSSL_CORE_MAKE_FUNC(int, digest_update,
                     (void *dctx, const unsigned char *in, size_t inl))
 OSSL_CORE_MAKE_FUNC(int, digest_final,
+                    (void *dctx,
+                     unsigned char *out, size_t *outl, size_t outsz))
+OSSL_CORE_MAKE_FUNC(int, digest_squeeze,
                     (void *dctx,
                      unsigned char *out, size_t *outl, size_t outsz))
 OSSL_CORE_MAKE_FUNC(int, digest_digest,
