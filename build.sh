@@ -1,7 +1,6 @@
 #! /bin/sh
 
 NPROCESSORS=$(getconf NPROCESSORS_ONLN 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null)
-
 cd openssl || exit 1
 
 env \
@@ -9,7 +8,7 @@ env \
     AR="zig ar" \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
-    CFLAGS="-Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
+    CFLAGS="$CFLAGS -Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
     CPPFLAGS="$CPPFLAGS -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     CXXFLAGS="-Werror -Qunused-arguments -Wno-shift-count-overflow" \
     LDFLAGS="-s -lwasi-emulated-getpid" \
