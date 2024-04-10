@@ -10,7 +10,7 @@ env \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi" \
     CFLAGS="-Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
-    CPPFLAGS="$CPPFLAGS -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
+    CPPFLAGS="$CPPFLAGS -D_BSD_SOURCE -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     CXXFLAGS="-Werror -Qunused-arguments -Wno-shift-count-overflow" \
     LDFLAGS="-s -lwasi-emulated-getpid" \
     ./Configure \
