@@ -13,7 +13,7 @@ index 46094f59..c3db2695 100644
 +        cflags           => add("--target=wasm32-wasi"),
 +        cxxflags         => add("--target=wasm32-wasi"),
 +        lib_cppflags     => add("-DL_ENDIAN"),
-+        bn_ops           => "SIXTY_FOUR_BITS",
++        bn_ops           => "THIRTY_TWO_BIT",
 +    },
 +
  ##### VxWorks for various targets
