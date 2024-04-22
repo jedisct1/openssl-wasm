@@ -67,6 +67,9 @@ extern "C" {
 # ifndef OPENSSL_NO_DEFAULT_THREAD_POOL
 #  define OPENSSL_NO_DEFAULT_THREAD_POOL
 # endif
+# ifndef OPENSSL_NO_DEMOS
+#  define OPENSSL_NO_DEMOS
+# endif
 # ifndef OPENSSL_NO_DEVCRYPTOENG
 #  define OPENSSL_NO_DEVCRYPTOENG
 # endif
@@ -99,6 +102,9 @@ extern "C" {
 # endif
 # ifndef OPENSSL_NO_FUZZ_LIBFUZZER
 #  define OPENSSL_NO_FUZZ_LIBFUZZER
+# endif
+# ifndef OPENSSL_NO_H3DEMO
+#  define OPENSSL_NO_H3DEMO
 # endif
 # ifndef OPENSSL_NO_KTLS
 #  define OPENSSL_NO_KTLS
