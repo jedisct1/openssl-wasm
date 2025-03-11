@@ -1,8 +1,29 @@
 diff --git a/crypto/rand/rand_lib.c b/crypto/rand/rand_lib.c
-index ce95bf62..0001e7b5 100644
+index 1c9589b78a..59618b5402 100644
 --- a/crypto/rand/rand_lib.c
 +++ b/crypto/rand/rand_lib.c
-@@ -320,6 +320,10 @@ const RAND_METHOD *RAND_get_rand_method(void)
+@@ -392,6 +392,10 @@ void RAND_add(const void *buf, int num, double randomness)
+ # if !defined(OPENSSL_NO_DEPRECATED_1_1_0)
+ int RAND_pseudo_bytes(unsigned char *buf, int num)
+ {
++#ifdef __wasi__
++    arc4random_buf(buf, num);
++    return 1;
++#endif
+     const RAND_METHOD *meth = RAND_get_rand_method();
+ 
+     if (meth != NULL && meth->pseudorand != NULL)
+@@ -403,6 +407,9 @@ int RAND_pseudo_bytes(unsigned char *buf, int num)
+ 
+ int RAND_status(void)
+ {
++#ifdef __wasi__
++    return 1;
++#endif
+     EVP_RAND_CTX *rand;
+ # ifndef OPENSSL_NO_DEPRECATED_3_0
+     const RAND_METHOD *meth = RAND_get_rand_method();
+@@ -433,6 +440,10 @@ const RAND_METHOD *RAND_get_rand_method(void)
  int RAND_priv_bytes_ex(OSSL_LIB_CTX *ctx, unsigned char *buf, size_t num,
                         unsigned int strength)
  {
@@ -10,17 +31,6 @@ index ce95bf62..0001e7b5 100644
 +    arc4random_buf(buf, num);
 +    return 1;
 +#endif
+     RAND_GLOBAL *dgbl;
      EVP_RAND_CTX *rand;
  #if !defined(OPENSSL_NO_DEPRECATED_3_0) && !defined(FIPS_MODULE)
-     const RAND_METHOD *meth = RAND_get_rand_method();
-@@ -349,6 +353,10 @@ int RAND_priv_bytes(unsigned char *buf, int num)
- int RAND_bytes_ex(OSSL_LIB_CTX *ctx, unsigned char *buf, size_t num,
-                   unsigned int strength)
- {
-+#ifdef __wasi__
-+    arc4random_buf(buf, num);
-+    return 1;
-+#endif
-     EVP_RAND_CTX *rand;
- #if !defined(OPENSSL_NO_DEPRECATED_3_0) && !defined(FIPS_MODULE)
-     const RAND_METHOD *meth = RAND_get_rand_method();
