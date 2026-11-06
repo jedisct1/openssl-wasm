@@ -1,6 +1,6 @@
 # OpenSSL (libcrypto and libssl) for WebAssembly
 
-This is OpenSSL, compiled to WebAssembly (`wasm32-freestanding`).
+This is OpenSSL, compiled to WebAssembly (`wasm32-freestanding`), optimized for it.
 
 Up-to-date. Maintained.
 
