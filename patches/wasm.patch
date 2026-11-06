@@ -1,0 +1,59 @@
+diff --git a/crypto/bio/bss_log.c b/crypto/bio/bss_log.c
+index a0ffc99781..fbbcfb8600 100644
+--- a/crypto/bio/bss_log.c
++++ b/crypto/bio/bss_log.c
+@@ -24,7 +24,7 @@
+ 
+ #if defined(OPENSSL_SYS_WINCE)
+ #elif defined(OPENSSL_SYS_WIN32)
+-#elif defined(__wasi__)
++#elif defined(__wasm__)
+ #define NO_SYSLOG
+ #elif defined(OPENSSL_SYS_VMS)
+ #include <opcdef.h>
+diff --git a/crypto/o_dir.c b/crypto/o_dir.c
+index 36d33fbed4..4c7dcedb6c 100644
+--- a/crypto/o_dir.c
++++ b/crypto/o_dir.c
+@@ -24,7 +24,7 @@
+ 
+ /* clang-format off */
+ #define LPDIR_H
+-#if defined OPENSSL_SYS_UNIX || defined DJGPP \
++#if (defined OPENSSL_SYS_UNIX && !defined __wasm__) || defined DJGPP \
+     || (defined __VMS_VER && __VMS_VER >= 70000000)
+ # include "LPdir_unix.c"
+ #elif defined OPENSSL_SYS_VMS
+diff --git a/crypto/uid.c b/crypto/uid.c
+index c0c62909fd..237e75330b 100644
+--- a/crypto/uid.c
++++ b/crypto/uid.c
+@@ -10,7 +10,7 @@
+ #include <openssl/crypto.h>
+ #include <openssl/opensslconf.h>
+ 
+-#if defined(OPENSSL_SYS_WIN32) || defined(OPENSSL_SYS_VXWORKS) || defined(OPENSSL_SYS_UEFI) || defined(__wasi__)
++#if defined(OPENSSL_SYS_WIN32) || defined(OPENSSL_SYS_VXWORKS) || defined(OPENSSL_SYS_UEFI) || defined(__wasm__)
+ 
+ int OPENSSL_issetugid(void)
+ {
+diff --git a/include/internal/e_os.h b/include/internal/e_os.h
+index 1cec9d7875..ad5998e31d 100644
+--- a/include/internal/e_os.h
++++ b/include/internal/e_os.h
+@@ -388,6 +388,15 @@ typedef _locale_t locale_t;
+  * this.
+  */
+ void ossl_cleanup_destructor(void);
++#elif defined(__wasm__)
++/*
++ * WebAssembly modules never exit, so a destructor would never run.
++ * Let an explicit OPENSSL_cleanup() do the work instead.
++ */
++#ifndef DO_NOT_SKIP_OPENSSL_CLEANUP
++#define DO_NOT_SKIP_OPENSSL_CLEANUP
++#endif
++void ossl_cleanup_destructor(void);
+ #else
+ #if defined(__has_attribute)
+ #if __has_attribute(destructor)

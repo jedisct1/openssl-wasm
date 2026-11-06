@@ -29,8 +29,8 @@ extern "C" {
 
 /* clang-format off */
 # define OPENSSL_CONFIGURED_API 40000
-# ifndef OPENSSL_RAND_SEED_OS
-#  define OPENSSL_RAND_SEED_OS
+# ifndef OPENSSL_RAND_SEED_GETRANDOM
+#  define OPENSSL_RAND_SEED_GETRANDOM
 # endif
 # ifndef OPENSSL_NO_ACVP_TESTS
 #  define OPENSSL_NO_ACVP_TESTS
@@ -50,6 +50,9 @@ extern "C" {
 # ifndef OPENSSL_NO_ASYNC
 #  define OPENSSL_NO_ASYNC
 # endif
+# ifndef OPENSSL_NO_ATEXIT
+#  define OPENSSL_NO_ATEXIT
+# endif
 # ifndef OPENSSL_NO_BROTLI
 #  define OPENSSL_NO_BROTLI
 # endif
@@ -67,6 +70,12 @@ extern "C" {
 # endif
 # ifndef OPENSSL_NO_DGRAM
 #  define OPENSSL_NO_DGRAM
+# endif
+# ifndef OPENSSL_NO_DOCS
+#  define OPENSSL_NO_DOCS
+# endif
+# ifndef OPENSSL_NO_DSO
+#  define OPENSSL_NO_DSO
 # endif
 # ifndef OPENSSL_NO_DTLS
 #  define OPENSSL_NO_DTLS

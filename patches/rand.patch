@@ -1,36 +1,85 @@
 diff --git a/crypto/rand/rand_lib.c b/crypto/rand/rand_lib.c
-index 1c9589b78a..59618b5402 100644
+index e49098dfe2..42814f80a9 100644
 --- a/crypto/rand/rand_lib.c
 +++ b/crypto/rand/rand_lib.c
-@@ -392,6 +392,10 @@ void RAND_add(const void *buf, int num, double randomness)
- # if !defined(OPENSSL_NO_DEPRECATED_1_1_0)
+@@ -25,6 +25,24 @@
+ #include "internal/provider.h"
+ #include "internal/common.h"
+ 
++#ifdef __wasm__
++#include <unistd.h>
++
++/* getentropy() is limited to 256 bytes per call. */
++static int wasm_random_bytes(unsigned char *buf, size_t num)
++{
++    while (num > 0) {
++        size_t chunk = num < 256 ? num : 256;
++
++        if (getentropy(buf, chunk) != 0)
++            return 0;
++        buf += chunk;
++        num -= chunk;
++    }
++    return 1;
++}
++#endif
++
+ /* clang-format off */
+ #ifndef OPENSSL_DEFAULT_SEED_SRC
+ #define OPENSSL_DEFAULT_SEED_SRC SEED-SRC
+@@ -314,6 +332,9 @@ void RAND_add(const void *buf, int num, double randomness)
+ #if !defined(OPENSSL_NO_DEPRECATED_1_1_0)
  int RAND_pseudo_bytes(unsigned char *buf, int num)
  {
-+#ifdef __wasi__
-+    arc4random_buf(buf, num);
-+    return 1;
++#ifdef __wasm__
++    return num >= 0 && wasm_random_bytes(buf, (size_t)num);
 +#endif
      const RAND_METHOD *meth = RAND_get_rand_method();
  
      if (meth != NULL && meth->pseudorand != NULL)
-@@ -403,6 +407,9 @@ int RAND_pseudo_bytes(unsigned char *buf, int num)
+@@ -325,6 +346,9 @@ int RAND_pseudo_bytes(unsigned char *buf, int num)
  
  int RAND_status(void)
  {
-+#ifdef __wasi__
++#ifdef __wasm__
 +    return 1;
 +#endif
      EVP_RAND_CTX *rand;
- # ifndef OPENSSL_NO_DEPRECATED_3_0
+ #ifndef OPENSSL_NO_DEPRECATED_3_0
      const RAND_METHOD *meth = RAND_get_rand_method();
-@@ -433,6 +440,10 @@ const RAND_METHOD *RAND_get_rand_method(void)
+@@ -355,6 +379,9 @@ const RAND_METHOD *RAND_get_rand_method(void)
  int RAND_priv_bytes_ex(OSSL_LIB_CTX *ctx, unsigned char *buf, size_t num,
-                        unsigned int strength)
+     unsigned int strength)
  {
-+#ifdef __wasi__
-+    arc4random_buf(buf, num);
-+    return 1;
++#ifdef __wasm__
++    return wasm_random_bytes(buf, num);
 +#endif
      RAND_GLOBAL *dgbl;
      EVP_RAND_CTX *rand;
  #if !defined(OPENSSL_NO_DEPRECATED_3_0) && !defined(FIPS_MODULE)
+diff --git a/providers/implementations/rands/seeding/rand_unix.c b/providers/implementations/rands/seeding/rand_unix.c
+index 1af996b25f..fb7d5417eb 100644
+--- a/providers/implementations/rands/seeding/rand_unix.c
++++ b/providers/implementations/rands/seeding/rand_unix.c
+@@ -353,7 +353,8 @@ static ssize_t syscall_random(void *buf, size_t buflen)
+      * Note: Sometimes getentropy() can be provided but not implemented
+      * internally. So we need to check errno for ENOSYS
+      */
+-#if !defined(__DragonFly__) && !defined(__NetBSD__) && !defined(__FreeBSD__)
++#if !defined(__DragonFly__) && !defined(__NetBSD__) && !defined(__FreeBSD__) \
++    && !defined(__wasm__)
+ #if defined(__GNUC__) && __GNUC__ >= 2 && defined(__ELF__) && !defined(__hpux)
+     extern int getentropy(void *buffer, size_t length) __attribute__((weak));
+ 
+@@ -396,7 +397,10 @@ static ssize_t syscall_random(void *buf, size_t buflen)
+     return getrandom(buf, buflen, 0);
+ #elif (defined(__FreeBSD__) || defined(__NetBSD__)) && defined(KERN_ARND)
+     return sysctl_random(buf, buflen);
+-#elif defined(__wasi__)
++#elif defined(__wasm__)
++    /* getentropy() is limited to 256 bytes, callers loop on short reads */
++    if (buflen > 256)
++        buflen = 256;
+     if (getentropy(buf, buflen) == 0)
+         return (ssize_t)buflen;
+     return -1;

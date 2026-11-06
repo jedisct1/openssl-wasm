@@ -1,0 +1,13 @@
+diff --git a/ssl/rio/poll_method.h b/ssl/rio/poll_method.h
+index 1e173fe4f8..8bae9125e1 100644
+--- a/ssl/rio/poll_method.h
++++ b/ssl/rio/poll_method.h
+@@ -17,7 +17,7 @@
+ #define RIO_POLL_METHOD_NONE 3
+ 
+ #ifndef RIO_POLL_METHOD
+-#if defined(OPENSSL_SYS_UEFI)
++#if defined(OPENSSL_SYS_UEFI) || defined(OPENSSL_NO_SOCK)
+ #define RIO_POLL_METHOD RIO_POLL_METHOD_NONE
+ #elif !defined(OPENSSL_SYS_WINDOWS) && defined(POLLIN)
+ #define RIO_POLL_METHOD RIO_POLL_METHOD_POLL

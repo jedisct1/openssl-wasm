@@ -1,18 +1,21 @@
 diff --git a/Configurations/10-main.conf b/Configurations/10-main.conf
+index 184dfb5ea3..6c1a1353c9 100644
 --- a/Configurations/10-main.conf
 +++ b/Configurations/10-main.conf
-@@ -1927,6 +1927,16 @@
+@@ -1927,6 +1927,18 @@ my %targets = (
          multilib         => "64",
      },
-
-+    "wasm32-wasi" => {
+ 
++    "wasm32-freestanding" => {
 +        inherit_from     => [ "BASE_unix" ],
 +        CC               => "zig cc",
 +        CXX              => "zig c++",
-+        cflags           => add("--target=wasm32-wasi"),
-+        cxxflags         => add("--target=wasm32-wasi"),
++        cflags           => add("--target=wasm32-freestanding"),
++        cxxflags         => add("--target=wasm32-freestanding"),
 +        lib_cppflags     => add("-DL_ENDIAN"),
 +        bn_ops           => "THIRTY_TWO_BIT",
++        thread_scheme    => "(unknown)",
++        dso_scheme       => "(unknown)",
 +    },
 +
  #### uClinux

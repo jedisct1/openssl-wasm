@@ -1,0 +1,37 @@
+diff --git a/crypto/rand/randfile.c b/crypto/rand/randfile.c
+index ab059bb5e8..8eee734811 100644
+--- a/crypto/rand/randfile.c
++++ b/crypto/rand/randfile.c
+@@ -81,6 +81,24 @@ static __FILE_ptr32 (*const vms_fopen)(const char *, const char *, ...) = (__FIL
+  * devices and EGD sockets are handled in rand_unix.c  If |bytes| is
+  * -1 read the complete file; otherwise read the specified amount.
+  */
++#ifdef OPENSSL_NO_STDIO
++/* openssl_fopen() always fails without stdio, don't pull in the rest of it */
++int RAND_load_file(const char *file, long bytes)
++{
++    if (bytes == 0)
++        return 0;
++    ERR_raise_data(ERR_LIB_RAND, RAND_R_CANNOT_OPEN_FILE,
++                   "Filename=%s", file);
++    return -1;
++}
++
++int RAND_write_file(const char *file)
++{
++    ERR_raise_data(ERR_LIB_RAND, RAND_R_CANNOT_OPEN_FILE,
++                   "Filename=%s", file);
++    return -1;
++}
++#else
+ int RAND_load_file(const char *file, long bytes)
+ {
+     /*
+@@ -265,6 +283,7 @@ int RAND_write_file(const char *file)
+     OPENSSL_cleanse(buf, RAND_BUF_SIZE);
+     return ret;
+ }
++#endif
+ 
+ const char *RAND_file_name(char *buf, size_t size)
+ {
