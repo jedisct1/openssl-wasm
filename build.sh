@@ -48,6 +48,7 @@ zig build-lib -target wasm32-freestanding -O ReleaseFast -fno-PIC -fcompiler-rt 
     libc/src/libc.zig -femit-bin=precompiled/lib/libc-freestanding.a || exit 1
 
 mkdir -p precompiled/include
+rm -rf precompiled/include/openssl
 cp -r openssl/include/openssl precompiled/include
 
 rm -rf precompiled/libc-include

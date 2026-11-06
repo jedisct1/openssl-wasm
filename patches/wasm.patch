@@ -1,18 +1,18 @@
 diff --git a/crypto/bio/bss_log.c b/crypto/bio/bss_log.c
-index a0ffc99781..fbbcfb8600 100644
+index 5eb5d9c130..0877ab6e1c 100644
 --- a/crypto/bio/bss_log.c
 +++ b/crypto/bio/bss_log.c
-@@ -24,7 +24,7 @@
+@@ -23,7 +23,7 @@
+ #include "internal/cryptlib.h"
  
- #if defined(OPENSSL_SYS_WINCE)
- #elif defined(OPENSSL_SYS_WIN32)
+ #if defined(OPENSSL_SYS_WIN32)
 -#elif defined(__wasi__)
 +#elif defined(__wasm__)
  #define NO_SYSLOG
  #elif defined(OPENSSL_SYS_VMS)
  #include <opcdef.h>
 diff --git a/crypto/o_dir.c b/crypto/o_dir.c
-index 36d33fbed4..4c7dcedb6c 100644
+index 7da07c78ef..f8031c293e 100644
 --- a/crypto/o_dir.c
 +++ b/crypto/o_dir.c
 @@ -24,7 +24,7 @@
@@ -38,10 +38,10 @@ index c0c62909fd..237e75330b 100644
  int OPENSSL_issetugid(void)
  {
 diff --git a/include/internal/e_os.h b/include/internal/e_os.h
-index 1cec9d7875..ad5998e31d 100644
+index 4fb1840f61..3304ad9838 100644
 --- a/include/internal/e_os.h
 +++ b/include/internal/e_os.h
-@@ -388,6 +388,15 @@ typedef _locale_t locale_t;
+@@ -391,6 +391,15 @@ typedef _locale_t locale_t;
   * this.
   */
  void ossl_cleanup_destructor(void);

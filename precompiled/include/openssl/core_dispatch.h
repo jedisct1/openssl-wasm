@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2025 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 2019-2026 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the Apache License 2.0 (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -488,6 +488,8 @@ OSSL_CORE_MAKE_FUNC(int, mac_init_skey, (void *mctx, void *key, const OSSL_PARAM
 #define OSSL_FUNC_SKEYMGMT_GET_KEY_ID 5
 #define OSSL_FUNC_SKEYMGMT_IMP_SETTABLE_PARAMS 6
 #define OSSL_FUNC_SKEYMGMT_GEN_SETTABLE_PARAMS 7
+#define OSSL_FUNC_SKEYMGMT_GET_LOCAL_KEYID 8
+#define OSSL_FUNC_SKEYMGMT_GET_ALGORITHM_ID 9
 
 OSSL_CORE_MAKE_FUNC(void, skeymgmt_free, (void *keydata))
 OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *,
@@ -500,6 +502,12 @@ OSSL_CORE_MAKE_FUNC(const OSSL_PARAM *,
     skeymgmt_gen_settable_params, (void *provctx))
 OSSL_CORE_MAKE_FUNC(void *, skeymgmt_generate, (void *provctx, const OSSL_PARAM params[]))
 OSSL_CORE_MAKE_FUNC(const char *, skeymgmt_get_key_id, (void *keydata))
+OSSL_CORE_MAKE_FUNC(int, skeymgmt_get_local_keyid,
+    (void *keydata, const unsigned char **id, size_t *len))
+OSSL_CORE_MAKE_FUNC(int, skeymgmt_get_algorithm_id,
+    (void *keydata,
+        const unsigned char **oid, size_t *oid_len,
+        const unsigned char **params, size_t *params_len))
 
 /* KDFs and PRFs */
 

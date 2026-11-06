@@ -1,8 +1,8 @@
 diff --git a/crypto/rand/randfile.c b/crypto/rand/randfile.c
-index ab059bb5e8..8eee734811 100644
+index eeb81faa95..9a347e5365 100644
 --- a/crypto/rand/randfile.c
 +++ b/crypto/rand/randfile.c
-@@ -81,6 +81,24 @@ static __FILE_ptr32 (*const vms_fopen)(const char *, const char *, ...) = (__FIL
+@@ -81,6 +81,24 @@ static __FILE_ptr32 (*const vms_fopen)(const char *, const char *, ...)
   * devices and EGD sockets are handled in rand_unix.c  If |bytes| is
   * -1 read the complete file; otherwise read the specified amount.
   */

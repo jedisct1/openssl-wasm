@@ -1,8 +1,8 @@
 diff --git a/Configurations/10-main.conf b/Configurations/10-main.conf
-index 184dfb5ea3..6c1a1353c9 100644
+index 3d044e8045..917643396c 100644
 --- a/Configurations/10-main.conf
 +++ b/Configurations/10-main.conf
-@@ -1927,6 +1927,18 @@ my %targets = (
+@@ -1804,6 +1804,18 @@ my %targets = (
          multilib         => "64",
      },
  
