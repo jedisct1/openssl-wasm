@@ -57,7 +57,7 @@ zig cc --target=wasm32-freestanding -mcpu=lime1+simd128+wide_arithmetic -O2 -fno
 The headers and `libssl.a` are the same for both builds.
 
 The resulting module only runs where wide arithmetic is supported.
-Wasmtime needs `-W wide-arithmetic=y`, and Wasmer needs `--wide-arithmetic`.
+Wasmtime needs `-W wide-arithmetic=y`, wasmer accepts it by default.
 V8 (Node.js, Chrome) and JavaScriptCore (Bun, Safari) don't support it yet, so for browsers, use the regular libcrypto.
 
 ## Performance
