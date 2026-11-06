@@ -20,6 +20,7 @@ They can be linked to C, Rust, Zig, etc. as regular static libraries:
 
 The C library gets randomness and time from the host through two WASI preview1 imports, `random_get` and `clock_time_get`.
 WASI runtimes such as Wasmtime or Node.js provide them out of the box.
+
 In a browser or any other JavaScript host, implementing those two functions is enough; [test/host.mjs](test/host.mjs) is a complete example.
 
 If your environment already has a libc that follows the wasi-libc ABI, you can use it instead of `libc-freestanding.a`.
