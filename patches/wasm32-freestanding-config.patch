@@ -1,8 +1,8 @@
 diff --git a/Configurations/10-main.conf b/Configurations/10-main.conf
-index 3d044e8045..917643396c 100644
+index 3d044e8045..2a89408abf 100644
 --- a/Configurations/10-main.conf
 +++ b/Configurations/10-main.conf
-@@ -1804,6 +1804,18 @@ my %targets = (
+@@ -1804,6 +1804,23 @@ my %targets = (
          multilib         => "64",
      },
  
@@ -13,9 +13,14 @@ index 3d044e8045..917643396c 100644
 +        cflags           => add("--target=wasm32-freestanding"),
 +        cxxflags         => add("--target=wasm32-freestanding"),
 +        lib_cppflags     => add("-DL_ENDIAN"),
-+        bn_ops           => "THIRTY_TWO_BIT",
++        bn_ops           => "THIRTY_TWO_BIT BN_LLONG",
 +        thread_scheme    => "(unknown)",
 +        dso_scheme       => "(unknown)",
++    },
++    # 64-bit limbs only pay off when 64x64-bit products are single instructions.
++    "wasm32-freestanding-wide" => {
++        inherit_from     => [ "wasm32-freestanding" ],
++        bn_ops           => "SIXTY_FOUR_BIT",
 +    },
 +
  #### uClinux

@@ -1,0 +1,38 @@
+diff --git a/crypto/bn/bn_local.h b/crypto/bn/bn_local.h
+index 506fcaa2b8..4548f4252f 100644
+--- a/crypto/bn/bn_local.h
++++ b/crypto/bn/bn_local.h
+@@ -354,7 +354,11 @@ struct bn_gencb_st {
+ #define BN_MUL_LOW_RECURSIVE_SIZE_NORMAL (32) /* 32 */
+ #define BN_MONT_CTX_SET_SIZE_WORD (64) /* 32 */
+ 
+-#if !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM) && !defined(PEDANTIC)
++/*
++ * The __int128 version doesn't need assembly, and it's how wasm gets 64x64-bit
++ * products, so it is used on wasm even with no-asm.
++ */
++#if (!defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM) && !defined(PEDANTIC)) || defined(__wasm__)
+ /*
+  * BN_UMULT_HIGH section.
+  * If the compiler doesn't support 2*N integer type, then you have to
+diff --git a/crypto/ec/curve25519.c b/crypto/ec/curve25519.c
+index d6ab92b8c1..1d5e2d4fd7 100644
+--- a/crypto/ec/curve25519.c
++++ b/crypto/ec/curve25519.c
+@@ -267,10 +267,15 @@ static void x25519_scalar_mulx(uint8_t out[32], const uint8_t scalar[32],
+ }
+ #endif
+ 
++/*
++ * wasm32 has a 32-bit long, but with wide arithmetic, 64x64-bit products are
++ * single instructions. Without it, they are slower than the base 2^25.5 code.
++ */
+ #if defined(X25519_ASM)                                          \
+     || (defined(INT128_MAX)                                      \
+         && !defined(__sparc__)                                   \
+-        && (!defined(__SIZEOF_LONG__) || (__SIZEOF_LONG__ == 8)) \
++        && (!defined(__SIZEOF_LONG__) || (__SIZEOF_LONG__ == 8)  \
++            || defined(__wasm_wide_arithmetic__))                \
+         && !(defined(__ANDROID__) && !defined(__clang__)))
+ /*
+  * Base 2^51 implementation. It's virtually no different from reference

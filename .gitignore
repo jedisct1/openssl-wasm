@@ -4,3 +4,4 @@ zig-out
 precompiled/include/openssl/*.in
 tmp
 test/*.wasm
+/build
